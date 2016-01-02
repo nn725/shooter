@@ -1,6 +1,7 @@
-h1 {
+h1,h3,p {
     text-align: center;
     padding: 10px;
+    font-family: "Arial";
 }
 
 canvas {

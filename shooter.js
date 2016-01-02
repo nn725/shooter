@@ -117,14 +117,15 @@ function AIPlayer(x, y) {
 
 AIPlayer.prototype = new Player();
 AIPlayer.prototype.control = function() {
+    
     return {
-        'up': false,
-        'down': false,
-        'left': false,
-        'right': false,
+        'up': p1.y < this.y,
+        'down': p1.y > this.y,
+        'left': p1.x < this.x,
+        'right': p1.x > this.x,
         'clockwise': false,
         'counter': false,
-        'shoot': false,
+        'shoot': true,
     }
 }
 
@@ -201,10 +202,14 @@ Shot.prototype.destroy = function () {
 }
 
 // The actual game
-function init () {
+function init (type) {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     p1 = new Player(WIDTH/3, HEIGHT/2);
-    p2 = new AIPlayer(2*WIDTH/3, HEIGHT/2);
+    if (type == 0) {
+        p2 = new AIPlayer(2*WIDTH/3, HEIGHT/2);
+    } else {
+        p2 = new NNPlayer(2*WIDTH/3, HEIGHT/2);
+    }
 }
 
 function render () {
@@ -240,6 +245,7 @@ function play() {
     then = now;
 
     if (winner) {
+        render();
         endGame(winner);
     } else {
         requestAnimationFrame(play);
@@ -255,6 +261,13 @@ function main() {
     if (49 in keysDown) {
         start = Date.now();
         then = Date.now();
+        init(0);
+        play();
+        return;
+    } else if (50 in keysDown) {
+        start = Date.now();
+        then = Date.now();
+        init(1);
         play();
         return;
     }
@@ -264,7 +277,4 @@ function main() {
 var start = Date.now();
 var then = Date.now();
 var winner;
-init();
-render();
-ctx.fillText("Press 1 for simple AI, 2 for Neural Network", 245, 140);
 main();
