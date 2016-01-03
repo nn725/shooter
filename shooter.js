@@ -117,14 +117,13 @@ function AIPlayer(x, y) {
 
 AIPlayer.prototype = new Player();
 AIPlayer.prototype.control = function() {
-    
     return {
         'up': p1.y < this.y,
         'down': p1.y > this.y,
         'left': p1.x < this.x,
         'right': p1.x > this.x,
-        'clockwise': false,
-        'counter': false,
+        'clockwise': (this.x - p1.x) * Math.cos(this.angle) > (this.y - p1.y) * Math.sin(this.angle),
+        'counter': (this.x - p1.x) * Math.sin(this.angle) < (this.y - p1.y) * Math.sin(this.angle),
         'shoot': true,
     }
 }

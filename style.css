@@ -4,6 +4,10 @@ h1,h3,p {
     font-family: "Arial";
 }
 
+h3,p {
+    padding: 0px;
+}
+
 canvas {
     background: #eee;
     display: block;
